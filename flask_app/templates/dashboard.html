@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-family: "Quicksand", sans-serif;
+        }
+        .row{
+            width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            margin-top: 20px; 
+            margin-bottom: 20px;  
+            margin-left: 10px;   
+            justify-content: space-around; 
+        }
+        
+        .libro{
+            width: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+
+        }
+
+        
+
+        .portada{
+            width: 280px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-between align-items-center">
+            <h1>¡Bienvenid@ {{ user.first_name }} {{ user.last_name }}! </h1>
+            <a href="/profile" class="btn btn-outline-info">Mi Perfil</a>
+            <a href="/new/review" class="btn btn-outline-warning">Registrar Reseña</a>
+            <a href="/logout" class="btn btn-outline-danger">Cerrar Sesion</a>
+        </header>
+        <h2 class="mt-5">Novedades</h2>
+        <img src="https://proassetspdlcom.cdnstatics2.com/usuaris/blog_categoria/detalle/thumbs/a40038ff-a8e3-41d3-9a82-681b65d6adc1/d_1600_380_crop/89a2fcc6-178c-43c2-b1d5-d60e99fe0f88-resenas-m.webp" alt="reseña" class="imagen">
+        <div class="row">
+            <div class="libro">
+                <img src="https://proassetspdlcom.cdnstatics2.com/usuaris/blog_entrada/miniatura/thumbs/f413bfd6-cf13-42a3-bdf3-5ac104f50e1a/d_510_306_crop/63f32cf4-b1f0-4636-b7ff-f2c9c511cafb-las-guerras-maxwell-orden.webp" alt="maxwell" class="portada">
+                <p class="fecha">Actualidad - 17 abr 2024</p>
+                <a class="link" href="https://www.planetadelibros.com/blog/actualidad/15/articulo/las-guerreras-maxwell-orden">Las guerreras Maxwell: Cuántos libros son
+                    y en qué orden leerlos</a>
+                <p class="parrafo">¿Eres fan de Megan Maxwell? Entonces te encantará su serie de Guerreras Maxwell. Te contamos de qué va y el...</p>
+            </div>
+            <div class="libro">
+                <img src="https://proassetspdlcom.cdnstatics2.com/usuaris/blog_entrada/miniatura/thumbs/1519de5b-ebf4-413c-8310-69a67d63eb9a/d_510_306_crop/3dc051d6-b5da-4800-bd5c-709e6affffc1--razones-para-leer-Blue-Jeans.webp" alt="blue" class="portada">
+                <p>Actualidad - 12 abr 2024</p>
+                <a class="link"  href="https://www.planetadelibros.com/blog/actualidad/15/articulo/ultimo-libro-blue-jeans">5 razones para leer 'Una influencer muerta en París' el último libro de Blue Jeans</a>
+                <p>Te damos 5 razones de peso por las que vas a amar la última novela de Blue Jeans, 'Una influencer muerta en París'. </p>
+            </div>
+            <div class="libro">
+                <img src="https://proassetspdlcom.cdnstatics2.com/usuaris/blog_entrada/miniatura/thumbs/8442588c-f451-42e7-9a19-53a2c897c984/d_510_306_crop/401_article_img_mini_1651680077.webp" alt="comic" class="portada">
+                <p>Actualidad - 01 abr 2024</p>
+                <a href="https://www.planetadelibros.com/blog/resenas/19/articulo/que-son-las-novelas-graficas/401">¿Pero existe una diferencia entre cómic y novela gráfica?</a>
+                <p>Estamos seguros de que alguna vez te ha pasado esto, lector: te encuentras en una librería caminando entre secciones,...</p>
+            </div>
+            <div class="libro">
+                <img src="https://proassetspdlcom.cdnstatics2.com/usuaris/blog_entrada/miniatura/thumbs/03caa8b6-ba5a-48f1-ba37-d0a5d12cfd5c/d_510_306_crop/75_article_img_mini_1683207594.webp" alt="blanca" class="portada">
+                <p>Actualidad - 01 abr 2024</p>
+                <a href="https://www.planetadelibros.com/blog/resenas/19/articulo/6-razones-para-leer-la-trilogia-de-la-ciudad-blanca/75">6 razones para leer la Trilogía de la Ciudad Blanca y serie Kraken</a>
+                <p>Vitoria siempre ha tenido "algo" especial. Blanca y cálida como ninguna, es el epicentro de la trilogía es [...]</p>
+            </div>
+        </div>
+        <h2 class="mt-5">Reseñas</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Titulo</th>
+                    <th>Autor</th>
+                    <th>Género</th>
+                    <th>Lo puedes encontrar en:</th>
+                    <th>Reseña</th>
+                    
+                </tr>
+            </thead>
+            <!---RECORRIDO DE RESEÑAS-->
+            <tbody>
+                {% for review in reviews %}
+                <tr>
+                    <td>{{review.book_name}}</td>
+                    <td>{{review.author}}</td>
+                    <td>{{review.genre}}</td>
+                    <td><a href="{{ review.buy_link }}">Antártica Chile</a></td>    
+                    <td>
+                        <a href="/show/{{review.id}}" class="btn btn-outline-secondary">Ver Reseña</a>
+                        <button class="btn btn-outline-primary like-btn" data-review-id="{{ review.id }}">Like <span class="like-count">0</span> </button>
+                        
+                        
+
+                        
+                        </td>
+                    </tbody>               
+                    
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var likeButtons = document.querySelectorAll(".like-btn");
+    
+            likeButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    var reviewId = button.getAttribute("data-review-id");
+                    var likeCountSpan = button.parentElement.querySelector(".like-count");
+                    var currentLikes = parseInt(likeCountSpan.innerText);
+                    likeCountSpan.innerText = currentLikes + 1;
+                    likeCountSpan.innerText = updatedLikes;
+                    
+                });
+                
+            });
+        });
+    </script>
+</body>
+</html>
