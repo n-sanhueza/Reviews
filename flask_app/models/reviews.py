@@ -57,4 +57,12 @@ class Review:
         else:
             return None
 
+    @classmethod
+    def get_all_id(cls):
+        query= "SELECT * FROM reviews"
+        results = connectToMySQL('esquema_reviews').query_db(query)
+        reviews = []
+        for review in results:
+            reviews.append(cls(review))
 
+        return reviews

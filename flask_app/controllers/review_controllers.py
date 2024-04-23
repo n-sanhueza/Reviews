@@ -36,6 +36,23 @@ def show_review(review_id):
     
     return render_template("show.html", review=review)
 
+@app.route("/profile")
+def profile():
+    #Verificar que el usuario inició sesión
+    if 'user_id' not in session:
+        return redirect("/")
+    
+    #Crear una instancia del usuario en base a la sesión
+    form = {"id": session['user_id']}
+    user = User.get_by_id(form)
+
+    #PENDIENTE : LISTA RESEÑAS
+    reviews =Review.get_all_id()
+
+    return render_template('profile.html', user= user, reviews= reviews)
+
+
+
 
 
 
