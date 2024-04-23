@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva Reseña</title>
+    <title>Editar Reseña</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     </head>
 <body>
     <div class="container">
         <header class="d-flex justify-content-between align-items-center">
-            <h1>Nueva Reseña </h1>
+            <h1>Editar Reseña </h1>
             <a href="/profile" class="btn btn-outline-info">Mi Perfil</a>
             <a href="/dashboard" class="btn btn-outline-secondary">Página Principal</a>
             <a href="/logout" class="btn btn-outline-danger">Cerrar Sesion</a>
@@ -26,47 +26,48 @@
                     {% endif %}
                 {% endwith %}
         <!--FORMULARIO-->
-        <form action="/create/review" method="POST">
+        <form action="/update/review" method="POST">
             <div>
                 <label>Título Libro</label>
-                <input type="text" name="book_name" class="form-control">
+                <input type="text" name="book_name" class="form-control" value="{{review.book_name}}">
             </div>
             <div>
                 <label>Autor Libro</label>
-                <input type="text" name="author" class="form-control">
+                <input type="text" name="author" class="form-control" value="{{review.author}}">
             </div>
             <div>
                 <label>Género</label>
                 <select name="genre" class="form-select">
-                    <option>Ciencia Ficción</option>
-                    <option>Poesía</option>
-                    <option>Romance</option>
-                    <option>Terror</option>
-                    <option>Policial</option>
-                    <option>Autoayuda</option>
-                    <option>Clásico</option>
-                    <option>Otro</option>
+                    <option {%if review.genre == 'Ciencia Ficción'%} selected {% endif %}>Ciencia Ficción</option>
+                    <option {%if review.genre == 'Poesía'%} selected {% endif %}>Poesía</option>
+                    <option {%if review.genre == 'Romance'%} selected {% endif %}>Romance</option>
+                    <option {%if review.genre == 'Terror'%} selected {% endif %}> Terror</option>
+                    <option {%if review.genre == 'Policial'%} selected {% endif %}>Policial</option>
+                    <option {%if review.genre == 'Autoayuda'%} selected {% endif %}>Autoayuda</option>
+                    <option {%if review.genre == 'Clásico'%} selected {% endif %}>Clásico</option>
+                    <option {%if review.genre == 'Otro'%} selected {% endif %}>Otro</option>
                 </select>
                 <label>Valoración</label>
                 <select name="value" class="form-select">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <option {%if review.value == '1'%} selected {% endif %}>1</option>
+                    <option {%if review.value == '2'%} selected {% endif %}>2</option>
+                    <option {%if review.value == '3'%} selected {% endif %}>3</option>
+                    <option {%if review.value == '4'%} selected {% endif %}>4</option>
+                    <option {%if review.value == '5'%} selected {% endif %}>5</option>
                 </select>
                 <label>Reseña</label>
-                    <textarea name="comments" class="form-control" rows="5"></textarea>
+                    <textarea name="comments" class="form-control" rows="5" >{{review.comments}}</textarea>
                 </div>
                 <div class="mb-3">
                     <label for="buy_link" class="form-label">Lo puedes encontrar en: </label>
-                    <input type="url" class="form-control" id="buy_link" name="buy_link" placeholder="https://...">
+                    <input type="url" class="form-control" id="buy_link" name="buy_link" placeholder="https://..." value="{{review.buy_link}}">
                 </div>
             </div>
             <input type="hidden" name="user_id" value="{{session['user_id']}}">
+            <input type="hidden" name="id" value="{{review.id}}">
             <div class="mb-3 text-center"> 
                 <input type="submit" class="btn btn-outline-success mt-3" value="Guardar Reseña">
-            </div>
+            </div>  
         </form>
     </div>
     

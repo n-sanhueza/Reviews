@@ -51,6 +51,42 @@ def profile():
 
     return render_template('profile.html', user= user, reviews= reviews)
 
+@app.route("/edit/<int:id>")
+def edit(id):
+    #Verificar que el usuario inició sesión
+    if 'user_id' not in session:
+        return redirect("/")
+    
+    diccionario = {'id': id}
+    review = Review.get_by_review(diccionario)
+
+    return render_template('edit.html', review = review)
+
+@app.route("/update/review", methods = ['POST'])
+def update_review():
+    if 'user_id' not in session:
+        return redirect("/")
+    #Validar info reseña
+    if not Review.validate_review(request.form):
+        return redirect ("/edit/"+request.form['id'])
+    
+    #Actualizar el registro
+    Review.update(request.form)
+    return redirect ('/dashboard')
+
+@app.route("/delete/<int:id>")
+def delete(id):
+    #Verificar que el usuario inició sesión
+    if 'user_id' not in session:
+        return redirect("/")   
+    #borrar reseña
+    form = {"id":id}
+    Review.delete(form)
+    return redirect ("/profile")
+
+
+
+
 
 
 

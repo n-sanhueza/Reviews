@@ -66,3 +66,22 @@ class Review:
             reviews.append(cls(review))
 
         return reviews
+
+    @classmethod
+    def get_by_review(cls, form):
+        query = "SELECT * FROM reviews WHERE id = %(id)s"
+        result= connectToMySQL('esquema_reviews').query_db(query, form)
+        review = cls(result[0])
+        return review
+    
+    @classmethod
+    def update(cls, form):
+        query= "UPDATE reviews SET book_name = %(book_name)s, author = %(author)s, genre = %(genre)s, value =%(value)s, comments = %(comments)s, buy_link = %(buy_link)s WHERE id = %(id)s "
+        result = connectToMySQL('esquema_reviews').query_db(query, form)
+        return result
+    
+    @classmethod
+    def delete(cls, form):
+        query = "DELETE FROM reviews WHERE id = %(id)s"
+        result = connectToMySQL('esquema_reviews').query_db(query, form)
+        return result
