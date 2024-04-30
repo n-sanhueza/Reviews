@@ -5,6 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles de Reseña</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+    .star-rating {
+        unicode-bidi: bidi-override;
+        color: gold;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    .star-rating span {
+        display: inline-block;
+        position: relative;
+        width: 1.1em;
+    }
+    .star-rating span:before {
+        content: "\2605";
+        position: absolute;
+        color: #f7ba0a; /* Color de las estrellas marcadas */
+    }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -13,14 +31,49 @@
             <a href="/dashboard" class="btn btn-outline-secondary">Página principal</a>
         </header>
 
-        <div>
-            <p><strong>Título:</strong> {{ review.book_name }}</p>
-            <p><strong>Autor:</strong> {{ review.author }}</p>
-            <p><strong>Género:</strong> {{ review.genre }}</p>
-            <p><strong>Valoración:</strong> {{ review.value }}</p>
-            <p><strong>Reseña:</strong> {{ review.comments }}</p>
-            <p><strong>Enlace de Compra:</strong> <a href="{{ review.buy_link }}">{{ review.buy_link }}</a></p>
+        <div class="row">
+            <div>
+                <p><strong>Título:</strong> {{ review.book_name }}</p>
+                <p><strong>Autor:</strong> {{ review.author }}</p>
+                <p><strong>Género:</strong> {{ review.genre }}</p>
+                <p><strong>Valoración:</strong>
+                    <span class="star-rating">
+                        {% for i in range(review.value) %}
+                            <span>&#9733;</span>
+                        {% endfor %}
+                        {% for i in range(5 - review.value) %}
+                            <span>&#9734;</span>
+                        {% endfor %}
+                    </span>
+                </p>
+                <p><strong>Reseña:</strong> {{ review.comments }}</p>
+                <p><strong>Enlace de Compra:</strong> <a href="{{ review.buy_link }}">{{ review.buy_link }}</a></p>
+            </div>
+            <hr>
+            <div>
+                <h2>Otras Reseñas de "{{ review.book_name }}"</h2>
+                {% for same_book_review in same_book_reviews %}
+                    <p><strong>Registrado por:</strong> {{ same_book_review_user_last_name }}</p>
+                    <p><strong>Reseña:</strong> {{ same_book_review.comments }}</p>
+                    <p><strong>Valoración:</strong> {{ same_book_review.value }}
+                        <span class="star-rating">
+                            {% for _ in range(same_book_review.value) %}
+                                <span>&#9733;</span>
+                            {% endfor %}
+                            {% for _ in range(5 - same_book_review.value) %}
+                                <span>&#9734;</span>
+                            {% endfor %}
+                        </span>           
+                    </p>
+                    
+                {% endfor %}
+            
+            </div>
         </div>
-    </div>
+                
+            
+        </ul>
+        
+        </div>
 </body>
 </html>

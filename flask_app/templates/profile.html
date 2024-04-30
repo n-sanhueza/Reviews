@@ -14,12 +14,13 @@
             <a href="/dashboard" class="btn btn-outline-secondary">Página Principal</a>
             <a href="/logout" class="btn btn-outline-danger">Cerrar Sesion</a>
         </header>
-        <div class="row">
-            <div>
+        <div class="row align-items-center">
+            <div >
                 <table class="table table-light table table-hover">
                     <h2 class="mt-3">Mi Perfil</h2>
                     <h3 class="mt-5">Mis Reseñas</h3>
                     <thead>
+                        <div>
                         <tr>
                             <th>Título</th>
                             <th>Autor</th>
@@ -46,11 +47,42 @@
 
             </div>
 
+            <div class="col-8">
+                <h3 class="mt-3">Editar datos perfil</h3>
+                <form  action="/update_profile" method="post">
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" readonly>
+                        <small id="emailHelp" class="form-text text-muted">El correo electrónico no se puede cambiar.</small>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" onclick="alert('Cambios realizados con éxito')">Guardar cambios</button>
+                    
+
+                    
+
+                </form>
+
+
             </div>
 
         </div>
         
     </div>
-    
+    <script>
+        function showSuccessMessage() {
+        console.log("Mensaje de éxito mostrado");
+        var myModal = new bootstrap.Modal(document.getElementById('successModal'));
+        myModal.show();
+    }
+    </script>
 </body>
 </html>

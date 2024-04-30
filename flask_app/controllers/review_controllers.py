@@ -33,8 +33,9 @@ def show_review(review_id):
     if not review:
         flash("La reseña no fue encontrada", "error")
         return redirect("/dashboard")
+    same_book_reviews = Review.get_all_by_book_name(review.book_name)
     
-    return render_template("show.html", review=review)
+    return render_template("show.html", review=review,same_book_reviews=same_book_reviews )
 
 @app.route("/profile")
 def profile():
@@ -84,11 +85,26 @@ def delete(id):
     Review.delete(form)
     return redirect ("/profile")
 
-
-
-
-
-
+@app.route("/update_profile", methods=["POST"])
+def update_profile():
+    if "user_id" not in session:
+        return redirect("/")
+    
+    # Obtener los datos del formulario
+    first_name = request.form["first_name"]
+    last_name = request.form["last_name"]
+    user_id = session["user_id"]
+    
+    # Actualizar los datos del usuario en la base de datos
+    form = {
+        "first_name": first_name,
+        "last_name": last_name,
+        "id": user_id
+    }
+    User.update(form)   
+    
+    # Redireccionar a la página de perfil
+    return redirect("/profile")
 
 
 

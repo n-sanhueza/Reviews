@@ -17,6 +17,8 @@ class Review:
         self.users_id = data['user_id']
         
 
+        
+
     @staticmethod
     def validate_review(form):
         is_valid = True
@@ -49,7 +51,7 @@ class Review:
     
     @classmethod
     def get_by_id(cls, review_id):
-        query = "SELECT * FROM reviews WHERE id = %(id)s"
+        query = "SELECT reviews. *, users.first_name FROM reviews JOIN users ON reviews.user_id = users.id WHERE reviews.id = %(id)s"
         data = { 'id': review_id }
         result = connectToMySQL('esquema_reviews').query_db(query, data)
         if result:
@@ -85,3 +87,25 @@ class Review:
         query = "DELETE FROM reviews WHERE id = %(id)s"
         result = connectToMySQL('esquema_reviews').query_db(query, form)
         return result
+    
+    @classmethod
+    def get_all_by_book_name(cls, book_name):
+        query = "SELECT * FROM reviews WHERE book_name = %(book_name)s"
+        data = {'book_name': book_name}
+        results = connectToMySQL('esquema_reviews').query_db(query, data)
+        reviews = []
+        for review in results:
+            reviews.append(cls(review))
+        return reviews
+    
+    @classmethod
+    def update_profile(cls, form):
+        query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s WHERE id = %(id)s"
+        data = {
+        'first_name': form['first_name'],
+        'last_name': form['last_name'],
+        'id': form['id']
+    }
+        return connectToMySQL('esquema_users').query_db(query, data)
+    
+   

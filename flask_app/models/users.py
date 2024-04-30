@@ -82,3 +82,39 @@ class User:
         result = connectToMySQL('esquema_reviews').query_db(query, form)#LISTA de diccionarios.. Que tiene solo 1 posición
         user = cls(result[0])
         return user
+
+    @classmethod
+    def get_all(cls):
+        query = "SELECT *FROM users"
+        results =connectToMySQL('esquema_reviews').query_db(query)
+        users = []
+        for u in results:
+            users.append(cls(u))
+        return users
+    
+    @classmethod
+    def update(cls, data):
+        query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s WHERE id = %(id)s;"
+        return connectToMySQL('esquema_reviews').query_db(query, data)
+    
+    @staticmethod
+    def reset_password(form):
+        is_valid =True
+
+        #Validar que la contraseña tenga al menos 6 caracteres
+        if len(form["password"]) <6:
+            flash("Contraseña debe tener al menos 6 caracteres", "password")
+            is_valid =False
+
+        if form["password"] != form ["confirm"]:
+            flash("Contraseñas no coinciden",  "password")
+            is_valid = False
+
+        return is_valid
+    
+    @classmethod
+    def reset_password(cls, form):
+        query = "UPDATE users SET password = %(password)s WHERE id = %(id)s"
+        result = connectToMySQL('esquema_reviews').query_db(query, form)
+        return result
+

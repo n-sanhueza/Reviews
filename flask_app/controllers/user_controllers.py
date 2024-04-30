@@ -51,9 +51,10 @@ def dashboard():
 
     #PENDIENTE : LISTA RESEÑAS
     reviews =Review.get_all()
+    all_users = User.get_all()
     
     
-    return render_template("dashboard.html", user = user, reviews=reviews)
+    return render_template("dashboard.html", user = user, reviews=reviews, all_users= all_users)
 
 
 @app.route("/login", methods=['POST'])
@@ -78,3 +79,44 @@ def login():
 def logout():
     session.clear()
     return redirect("/")
+
+@app.route("/reset_password", methods=["GET", "POST"])
+def reset_password():
+    if request.method == "POST":
+        # Verificar que las contraseñas coincidan
+        if request.form["password"] != request.form["confirm"]:
+            flash("Las contraseñas no coinciden", "password")
+            return redirect("/reset_password")
+
+        # Verificar que la contraseña tenga al menos 6 caracteres
+        if len(request.form["password"]) < 6:
+            flash("La contraseña debe tener al menos 6 caracteres", "password")
+            return redirect("/reset_password")
+
+        # Obtener el ID del usuario desde la sesión
+        user_id = session.get("user_id")
+
+        # Verificar si el ID del usuario está en la sesión
+        if not user_id:
+            flash("No se encontró ningún usuario", "password")
+            return redirect("/reset_password")
+
+        # Encriptar la nueva contraseña
+        encrypted_password = bcrypt.generate_password_hash(request.form["password"])
+
+        # Crear un diccionario con los datos del formulario
+        form = {
+            "id": user_id,
+            "password": encrypted_password
+        }
+
+        # Actualizar la contraseña en la base de datos
+        if User.reset_password(form):
+            flash("Contraseña actualizada exitosamente", "success")
+        else:
+            flash("Hubo un error al actualizar la contraseña", "password")
+        return redirect("/reset_password")
+
+    return render_template("password.html")
+
+
