@@ -68,12 +68,11 @@ class User:
         #form = {"email": "elena@cd.com", "password": "Hola123"}
         query = "SELECT * FROM users WHERE email = %(email)s"
         results = connectToMySQL('esquema_reviews').query_db(query, form) #LISTA
-        if len(results) == 1:
-            #Si existe el usuario, me regresa solo 1 reg. [0]
-            user = cls(results[0])
-            return user #Regreso la instancia del usuario con ese correo
-        else:
-            return False
+        if results:  # Verificar si hay resultados en la lista
+            if len(results) == 1:
+                user = cls(results[0])
+            return user
+        return None  # Devolver None en lugar de False cuando no se encuentra ningún usuario
     
     @classmethod
     def get_by_id(cls, form):
@@ -112,9 +111,4 @@ class User:
 
         return is_valid
     
-    @classmethod
-    def reset_password(cls, form):
-        query = "UPDATE users SET password = %(password)s WHERE id = %(id)s"
-        result = connectToMySQL('esquema_reviews').query_db(query, form)
-        return result
 

@@ -43,7 +43,7 @@
             <h1>¡Bienvenid@ {{ user.first_name }} {{ user.last_name }}! </h1>
             <a href="/profile" class="btn btn-outline-info">Mi Perfil</a>
             <a href="/new/review" class="btn btn-outline-warning">Registrar Reseña</a>
-            <a href="/logout" class="btn btn-outline-danger">Cerrar Sesion</a>
+            <a href="/logout" class="btn btn-outline-danger">Cerrar Sesión</a>
         </header>
         <h2 class="mt-5">Novedades</h2>
         <img src="https://proassetspdlcom.cdnstatics2.com/usuaris/blog_categoria/detalle/thumbs/a40038ff-a8e3-41d3-9a82-681b65d6adc1/d_1600_380_crop/89a2fcc6-178c-43c2-b1d5-d60e99fe0f88-resenas-m.webp" alt="reseña" class="imagen">
@@ -93,7 +93,7 @@
                     <td>{{review.book_name}}</td>
                     <td>{{review.author}}</td>
                     <td>{{review.genre}}</td>
-                    <td><a href="{{ review.buy_link }}">Antártica Chile</a></td>    
+                    <td><a href="{{ review.buy_link }}">Librería</a></td>    
                     <td>
                         <a href="/show/{{review.id}}" class="btn btn-outline-secondary">Ver Reseña</a>
                         <button class="btn btn-outline-primary like-btn" data-review-id="{{ review.id }}">Like <span class="like-count">0</span> </button>
